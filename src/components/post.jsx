@@ -32,7 +32,7 @@ function Post({ id, title, body, stars, comments }) {
                     </div>
                     <p className="mt-4 text-md text-gray-600">{body}</p>
                     <div onClick={handelAddComment} className="p-6 bg-yellow-400 rounded-full h-4 w-4 mx-auto flex items-center justify-center text-2xl text-white mt-4 shadow-lg cursor-pointer">+</div>
-                    {comments.map(comment => <Comment key={comment.id} title={comment.title} date={comment.date}/>)}
+                    {comments.map(comment => <Comment key={comment.id} postId={id} id={comment.id} title={comment.title} date={comment.date}/>)}
                 </div>
             </div>
         </div>

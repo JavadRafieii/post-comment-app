@@ -17,10 +17,24 @@ const postsSlice = createSlice({
                     post.comment.push({ id, title, date })
                 }
                 return false;
-            })
+            });
+        },
+        updateComment(state, action) {
+            const { postId, id, title, date } = action.payload;
+            state.map(post => {
+                if (post.id === postId) {
+                    post.comment.forEach(comment => {
+                        if (comment.id === id) {
+                            comment.title = title;
+                            comment.date = date;
+                        }
+                    });
+                }
+                return false;
+            });
         },
     },
 })
 
-export const { addNewPost, addNewComment } = postsSlice.actions;
+export const { addNewPost, addNewComment, updateComment } = postsSlice.actions;
 export default postsSlice.reducer;
