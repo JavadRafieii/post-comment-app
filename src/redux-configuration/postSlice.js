@@ -1,40 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { addNewComment } from './commentSlice';
 
-const initialState = [];
+const initialState = {
+    byId: {},
+    allIds: [],
+};
 
 const postsSlice = createSlice({
     name: 'post',
     initialState,
     reducers: {
         addNewPost(state, action) {
-            const { id, title, body, stars, comment } = action.payload;
-            state.push({ id, title, body, stars, comment });
+            const { id } = action.payload;
+            const newPost = action.payload;
+            state.byId[id] = newPost;
+            state.allIds.push(id);
         },
-        addNewComment(state, action) {
-            const { postId, id, title, date } = action.payload;
-            state.map(post => {
-                if (post.id === postId) {
-                    post.comment.push({ id, title, date })
-                }
-                return false;
-            });
-        },
-        updateComment(state, action) {
-            const { postId, id, title, date } = action.payload;
-            state.map(post => {
-                if (post.id === postId) {
-                    post.comment.forEach(comment => {
-                        if (comment.id === id) {
-                            comment.title = title;
-                            comment.date = date;
-                        }
-                    });
-                }
-                return false;
-            });
-        },
+    },
+    extraReducers: builder => {
+        builder
+            .addCase(addNewComment, (state, action) => {
+                const { postId, id } = action.payload;
+                state.byId[postId].comment.push(id);
+            })
     },
 })
 
-export const { addNewPost, addNewComment, updateComment } = postsSlice.actions;
+export const { addNewPost } = postsSlice.actions;
 export default postsSlice.reducer;
